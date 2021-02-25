@@ -1,19 +1,22 @@
 #include <stdio.h>
 #include <time.h>
+#include <math.h>
+#include "globs.h"
 
 /*
 ** Function prototypes
 */
-struct tm currentTime (); 
-int    isLeap ();
-int    fractionalYear(); 
+struct    tm currentTime (); 
+int       isLeap ();
+double    fractionalYear(); 
+
+GLOBS Globs;
 
 int main ()
 {
-	struct tm time; 
-	time = currentTime ();
-        int test = isLeap(time);	
-	printf ("%02d\n", test);
+	Globs.time = currentTime (); 
+	double n = fractionalYear (); 
+	printf ("%lf\n", n);
 	return 0;
 }
 
@@ -29,16 +32,25 @@ struct tm currentTime ()
 }
 
 /*
-** Returns true if current year is a leap year.
+** Returns 1 if current year is a leap year, else 0 is returned. 
 */
-int isLeap (struct tm time)
+int isLeap ()
 {
-	int year = time.tm_year;
+	int year = Globs.time.tm_year;
+
 	return ((year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0));
 }
 
-int fractionalYear ()
+/*
+** Fractional year is calculated, in radians and returned.
+*/
+double fractionalYear ()
 {
-	int y; 
-
+	int leap = isLeap();
+	double y = (((2 * M_PI) / (365 + leap)) * ((Globs.time.tm_yday - 1) + ((Globs.time.tm_hour - 12) / 24)));
+        return y;	
 }
+
+double 
+
+
