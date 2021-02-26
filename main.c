@@ -8,14 +8,15 @@
 */
 struct    tm currentTime (); 
 int       isLeap ();
-double    fractionalYear(); 
-
+double    fractionalYear (); 
+double    eqTime ();
+double    decl (); 
 GLOBS Globs;
 
 int main ()
 {
 	Globs.time = currentTime (); 
-	double n = fractionalYear (); 
+	double n = eqTime (); 
 	printf ("%lf\n", n);
 	return 0;
 }
@@ -50,5 +51,19 @@ double fractionalYear ()
 	double y = (((2 * M_PI) / (365 + leap)) * ((Globs.time.tm_yday - 1) + ((Globs.time.tm_hour - 12) / 24)));
         return y;	
 }
+
+/*
+** From fractionalYear () estimating the equation of time in minutes.
+*/
+double eqTime ()
+{
+	double y = fractionalYear ();
+	double eq_time = 229.18 * ((0.000075 +(0.001868 * cos(y))) - (0.032077 * sin(y)) - (0.014615 * cos(2 * y)) - (0.040849 * sin(2 * y))); 
+	return eq_time; 
+}
+
+/*
+** From fractionalYear () estimatin the equation of the solar declination angle in radiains.
+*/
 
 
