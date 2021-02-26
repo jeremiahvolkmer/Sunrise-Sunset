@@ -16,7 +16,7 @@ GLOBS Globs;
 int main ()
 {
 	Globs.time = currentTime (); 
-	double n = eqTime (); 
+	double n = decl (); 
 	printf ("%lf\n", n);
 	return 0;
 }
@@ -65,5 +65,10 @@ double eqTime ()
 /*
 ** From fractionalYear () estimatin the equation of the solar declination angle in radiains.
 */
-
+double decl ()
+{
+	double y = fractionalYear ();
+	double decl_ang = 0.006918 - (0.399912 * cos(y)) + (0.070257 * sin(y)) - (0.006758 *cos(2 * y)) + (0.000970 * sin(2 * y)) - (0.002697 * cos(3 * y)) + (0.00148 * sin(3 * y));
+	return decl_ang; 
+}
 
