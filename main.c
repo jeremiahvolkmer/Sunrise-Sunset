@@ -51,6 +51,4 @@ double fractionalYear ()
         return y;	
 }
 
-double 
-
 
