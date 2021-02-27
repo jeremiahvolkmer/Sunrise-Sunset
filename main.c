@@ -11,12 +11,19 @@ int       isLeap ();
 double    fractionalYear (); 
 double    eqTime ();
 double    decl (); 
+double    ha (); 
+double    sunrise (); 
+double    sNoon (); 
+
 GLOBS Globs;
 
 int main ()
 {
-	Globs.time = currentTime (); 
-	double n = decl (); 
+	Globs.time = currentTime ();
+        Globs.lat  = 47;
+	Globs.lng  = 122;
+
+        double n = sNoon (); 	
 	printf ("%lf\n", n);
 	return 0;
 }
@@ -72,3 +79,28 @@ double decl ()
 	return decl_ang; 
 }
 
+/*
+** Zenith is set 90.833degs the approximate correction for atmospheric refraction at 
+** rise/set, and the size of the solar disk.
+*/
+double ha ()
+{
+	double dec_ang = decl (); 
+	double h_a = acos(( cos(90.833) / (cos(Globs.lat) * cos(dec_ang))) - (tan(Globs.lat) * tan(dec_ang)));
+	return h_a; 
+}
+
+double sunrise ()
+{
+	double h_a = ha ();
+        double eq_time = eqTime ();	
+	double rise = 720 - (4 * (Globs.lng + h_a)) - eq_time; 
+	return rise; 
+}
+
+double sNoon ()
+{
+	double eq_time = eqTime ();
+	double s_noon = 720 - (4 * Globs.lng) - eq_time;
+	return s_noon; 
+}

@@ -5,5 +5,7 @@
 typedef struct GLOBS
 {
 	struct tm time;
+	double lat;
+        double lng; 
 }GLOBS;
 #endif
