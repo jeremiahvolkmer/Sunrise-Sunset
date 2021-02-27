@@ -23,7 +23,7 @@ int main ()
         Globs.lat  = 47;
 	Globs.lng  = 122;
 
-        double n = sNoon (); 	
+        double n = sunrise (); 	
 	printf ("%lf\n", n);
 	return 0;
 }
@@ -55,7 +55,7 @@ int isLeap ()
 double fractionalYear ()
 {
 	int leap = isLeap();
-	double y = (((2 * M_PI) / (365 + leap)) * ((Globs.time.tm_yday - 1) + ((Globs.time.tm_hour - 12) / 24)));
+	double y = (((2 * M_PI) / (365 + leap)) * ((Globs.time.tm_yday - 1) + ((Globs.time.tm_hour - 12) / 24.0)));
         return y;	
 }
 
@@ -90,6 +90,9 @@ double ha ()
 	return h_a; 
 }
 
+/*
+** Returns the UTC time of sunrise
+*/
 double sunrise ()
 {
 	double h_a = ha ();
@@ -98,6 +101,12 @@ double sunrise ()
 	return rise; 
 }
 
+/*
+** Solar noon for a given location is found from the longitude 
+** in degrees, positive to the east of the Prime Meridian and the 
+** equation for time in minutes. 
+** returns time of solar noon in minutes.
+*/
 double sNoon ()
 {
 	double eq_time = eqTime ();
